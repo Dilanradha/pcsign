@@ -29,28 +29,22 @@
     <button onclick="saveHighQualityImage()">Save Signed Invoice</button>
 
     <script>
-        // A4 size in pixels (300 DPI)
         const A4_WIDTH = Math.round((210 / 25.4) * 300);  // 2480px
         const A4_HEIGHT = Math.round((297 / 25.4) * 300); // 3508px
 
-        // Get canvas and context
         const signCanvas = document.getElementById("signCanvas");
         const ctx = signCanvas.getContext("2d");
 
-        // Set high resolution for canvas
         signCanvas.width = A4_WIDTH;
         signCanvas.height = A4_HEIGHT;
-
-        // Make it look smooth on screens
         signCanvas.style.width = "90%";
         signCanvas.style.height = "auto";
 
-        // Load invoice image from session storage instead of query params
         const urlParams = new URLSearchParams(window.location.search);
         const fileName = urlParams.get("image");
 
         if (fileName) {
-            const storedImageURL = sessionStorage.getItem(fileName);
+            const storedImageURL = localStorage.getItem(fileName);
             if (storedImageURL) {
                 const invoiceImage = new Image();
                 invoiceImage.src = storedImageURL;
@@ -64,10 +58,9 @@
             alert("No image provided.");
         }
 
-        // Set drawing properties for a bold signature
-        ctx.lineWidth = 8; // Make strokes bolder
-        ctx.lineCap = "round"; // Smooth edges
-        ctx.strokeStyle = "black"; // Signature color
+        ctx.lineWidth = 8;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
 
         let drawing = false;
 
@@ -105,13 +98,11 @@
             drawing = false;
         }
 
-        // Mouse Events
         signCanvas.addEventListener("mousedown", startDrawing);
         signCanvas.addEventListener("mousemove", draw);
         signCanvas.addEventListener("mouseup", stopDrawing);
         signCanvas.addEventListener("mouseleave", stopDrawing);
 
-        // Touch Events (Mobile Support)
         signCanvas.addEventListener("touchstart", startDrawing);
         signCanvas.addEventListener("touchmove", draw);
         signCanvas.addEventListener("touchend", stopDrawing);
@@ -120,7 +111,7 @@
         function clearCanvas() {
             ctx.clearRect(0, 0, signCanvas.width, signCanvas.height);
             if (fileName) {
-                const storedImageURL = sessionStorage.getItem(fileName);
+                const storedImageURL = localStorage.getItem(fileName);
                 if (storedImageURL) {
                     const invoiceImage = new Image();
                     invoiceImage.src = storedImageURL;
@@ -132,7 +123,7 @@
         }
 
         function saveHighQualityImage() {
-            const imageData = signCanvas.toDataURL("image/png", 1.0); // Highest quality
+            const imageData = signCanvas.toDataURL("image/png", 1.0);
             
             fetch("https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbzoGy5FNFGR8EAx6k97bS1uTro6cB-3gJynfetYSLtkuIBKb11HmFQzm1HnYziM2Lw/exec", {
                 method: "POST",
