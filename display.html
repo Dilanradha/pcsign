@@ -17,7 +17,7 @@
             border: 2px solid black;
             max-width: 90%;
             height: auto;
-            touch-action: none; /* Prevents scrolling while signing */
+            touch-action: none;
         }
     </style>
 </head>
@@ -40,22 +40,17 @@
         signCanvas.style.width = "90%";
         signCanvas.style.height = "auto";
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const fileName = urlParams.get("image");
+        // Load invoice image from localStorage
+        const storedImageURL = localStorage.getItem("invoiceImage");
 
-        if (fileName) {
-            const storedImageURL = localStorage.getItem(fileName);
-            if (storedImageURL) {
-                const invoiceImage = new Image();
-                invoiceImage.src = storedImageURL;
-                invoiceImage.onload = function () {
-                    ctx.drawImage(invoiceImage, 0, 0, signCanvas.width, signCanvas.height);
-                };
-            } else {
-                alert("Image not found. Please upload again.");
-            }
+        if (storedImageURL) {
+            const invoiceImage = new Image();
+            invoiceImage.src = storedImageURL;
+            invoiceImage.onload = function () {
+                ctx.drawImage(invoiceImage, 0, 0, signCanvas.width, signCanvas.height);
+            };
         } else {
-            alert("No image provided.");
+            alert("Image not found. Please upload again.");
         }
 
         ctx.lineWidth = 8;
@@ -110,15 +105,12 @@
 
         function clearCanvas() {
             ctx.clearRect(0, 0, signCanvas.width, signCanvas.height);
-            if (fileName) {
-                const storedImageURL = localStorage.getItem(fileName);
-                if (storedImageURL) {
-                    const invoiceImage = new Image();
-                    invoiceImage.src = storedImageURL;
-                    invoiceImage.onload = function () {
-                        ctx.drawImage(invoiceImage, 0, 0, signCanvas.width, signCanvas.height);
-                    };
-                }
+            if (storedImageURL) {
+                const invoiceImage = new Image();
+                invoiceImage.src = storedImageURL;
+                invoiceImage.onload = function () {
+                    ctx.drawImage(invoiceImage, 0, 0, signCanvas.width, signCanvas.height);
+                };
             }
         }
 
