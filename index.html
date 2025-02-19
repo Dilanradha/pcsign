@@ -29,7 +29,7 @@
     const objectURL = URL.createObjectURL(file);
 
     // Store the temporary image URL in session storage
-    sessionStorage.setItem(fileName, objectURL);
+    localStorage.setItem(fileName, objectURL);
 
     const signPageUrl = `display.html?image=${fileName}`;
 
