@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Invoice</title>
+</head>
+<body>
+    <h1>Upload Invoice Image</h1>
+    <input type="file" id="invoiceImage" accept="image/*" required>
+    <button onclick="uploadImage()">Upload</button>
+
+    <p id="linkContainer" style="display: none;">
+        <strong>Click to Sign:</strong> <a id="signLink" href="#" target="_blank">Sign Invoice</a>
+    </p>
+
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById('invoiceImage');
+            if (fileInput.files.length === 0) {
+                alert('Please select an image file.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imageUrl = encodeURIComponent(e.target.result);
+                const signPageUrl = `display.html?image=${imageUrl}`;
+
+                // Show the generated link
+                const linkContainer = document.getElementById('linkContainer');
+                const signLink = document.getElementById('signLink');
+                
+                signLink.href = signPageUrl;  // Set the link URL
+                linkContainer.style.display = 'block';  // Show the link
+            };
+
+            reader.readAsDataURL(file); // Convert image to Data URL
+        }
+    </script>
+</body>
+</html>
