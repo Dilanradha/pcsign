@@ -117,7 +117,7 @@
         function saveHighQualityImage() {
             const imageData = signCanvas.toDataURL("image/png", 1.0); // Highest quality
 
-            fetch("https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbxSvPLK91IPPwNwCF9DYvPkZ9L7MnkakE9k1Qbt5uOqEj2KIlRgVAjWRmuHlLW3qGc/exec", {
+            fetch("https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbweZdPWtyTG4iGcldmdU9zsmmgJnUY6s3pOAu6qlWHfWLzXtQdo4tNLS5Tgw01wB7k/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ action: "submitSignature", imageData })
